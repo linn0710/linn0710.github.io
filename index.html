@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Korean Movies</title>
+<style>
+body { background:#111; color:white; font-family:Arial; }
+.grid { display:grid; grid-template-columns:repeat(4,1fr); gap:15px; }
+.card { background:#222; padding:10px; border-radius:10px; }
+img { width:100%; border-radius:10px; }
+</style>
+</head>
+
+<body>
+
+<h1>🎬 Korean Movies & Dramas</h1>
+<select id="genreFilter">
+  <option value="all">All</option>
+  <option value="Action">Action</option>
+  <option value="Drama">Drama</option>
+  <option value="Comedy">Comedy</option>
+  <option value="Romance">Romance</option>
+  <option value="Thriller">Thriller</option>
+  <option value="Horror">Horror</option>
+  <option value="Sci-Fi">Sci-Fi</option>
+</select>
+<div class="grid" id="movies"></div>
+
+<script>
+const API_KEY = "a66c05af7629c6d5e7942b0375e4942b";
+
+const movies = [
+"Parasite","Train to Busan","The Handmaiden","Oldboy","My Dearest",
+"What’s Wrong with Secretary Kim","Boys Over Flowers","Memories of Murder","The Host","A Taxi Driver",
+"Crash Landing on You","In Your Radiant Season","Descendants of the Sun","Itaewon Class",
+"Vincenzo","Hospital Playlist","Reply 1988","Sky Castle","The Glory",
+"Squid Game","Sweet Home","All of Us Are Dead","Moon Lovers: Scarlet Heart Ryeo","Lovely Runner",
+"Perfect Crown","Mouse","Taxi Driver","Weak Hero Class 1","Start-Up",
+"Business Proposal","Twenty Five Twenty One","Hometown Cha-Cha-Cha",
+
+"The Penthouse","My Mister","Hotel Del Luna","Twinkling Watermelon",
+"Weightlifting Fairy Kim Bok Joo","Fight For My Way","While You Were Sleeping",
+"Sweet Home","Squid Game 2","Dear X","My Demon","The K2","Arthdal Chronicles",
+"Navillera","Prison Playbook","Exhuma","Black Knight","Boyfriend On Demand",
+"The Uncanny Counter","The King Eternal Monarch","Run On",
+"Something in the Rain","Forecasting Love and Weather","Youth of May",
+"Chicago Typewriter","Kill Me Heal Me","Snowdrop",
+"Legend of the Blue Sea","Angel's Last Mission","Mr Sunshine",
+
+// 🔥 thay phim cổ bằng phim mới nổi hơn
+"Extraordinary Attorney Woo","D.P.","Bloodhounds","Moving",
+"The Trauma Code: Heroes on Call","Hellbound","The Silent Sea","Mr Queen",
+"Mask Girl","A Killer's Shopping List","Through the Darkness",
+"Pyramid Game","The Kidnapping Day","Call It Love",
+"Nevertheless","Love Alarm","Our Beloved Summer",
+"Sh**ting Stars","Record of Youth","Love Next Door",
+"Doona!","See You in My 19th Life","King the Land",
+"Destined with You","My Demon","Marry My Husband",
+"Perfect Marriage Revenge","Vagabond","20th Century Girl",
+"Our Universe","Class of Lies"
+];
+
+const container = document.getElementById("movies");
+let allMoviesData = [];
+async function getMovie(name){
+  const res = await fetch(
+    `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(name)}`
+  );
+  const data = await res.json();
+  return data.results[0];
+}
+
+async function render(){
+  for (let movie of movies){
+    const data = await getMovie(movie);
+	if(data){
+  		allMoviesData.push({ name: movie, data: data });
+}
+    const card = document.createElement("div");
+    card.className = "card";
+
+    if(data){
+      card.innerHTML = `
+        <img src="https://image.tmdb.org/t/p/w500${data.poster_path}">
+        <h3>${movie}</h3>
+        <p>⭐ ${data.vote_average}</p>
+        <p>${data.overview || "No description"}</p>
+      `;
+    } else {
+      card.innerHTML = `
+        <h3>${movie}</h3>
+        <p>⭐ N/A</p>
+        <p>No data found</p>
+      `;
+    }
+
+    container.appendChild(card);
+  }
+}
+
+render();
+function filterMovies(){
+  const selected = document.getElementById("genreFilter").value;
+  container.innerHTML = "";
+
+  allMoviesData.forEach(item => {
+    const genres = item.data.genre_ids || [];
+
+    // map genre TMDb ID → tên
+    const genreMap = {
+      28:"Action",
+      35:"Comedy",
+      18:"Drama",
+      10749:"Romance",
+      53:"Thriller",
+      27:"Horror",
+      878:"Sci-Fi"
+    };
+
+    const movieGenres = genres.map(id => genreMap[id]);
+
+    if(selected === "all" || movieGenres.includes(selected)){
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <img src="https://image.tmdb.org/t/p/w500${item.data.poster_path}">
+        <h3>${item.name}</h3>
+        <p>⭐ ${item.data.vote_average}</p>
+        <p>${item.data.overview || "No description"}</p>
+      `;
+
+      container.appendChild(card);
+    }
+  });
+}
+document.getElementById("genreFilter").addEventListener("change", filterMovies);
+</script>
+
+</body>
+</html>
