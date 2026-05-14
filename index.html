@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K-Media Hub - Premium Cinema Experience</title>
+<title>K-Media Hub - Xem Phim Trực Tuyến</title>
 <style>
-  /* 1. NỀN TẢNG & BIẾN SẮC MÀU (CINEMATIC GRADIENT) */
+  /* 1. NỀN TẢNG VIA CINEMATIC */
   * { box-sizing: border-box; margin: 0; padding: 0; }
   
   body { 
@@ -17,7 +17,7 @@
     overflow-x: hidden;
   }
 
-  /* 2. HEADER & LOGO NEON PHÁT SÁNG */
+  /* 2. HEADER & LOGO NEON */
   header {
     display: flex;
     justify-content: space-between;
@@ -37,11 +37,8 @@
   }
 
   h1 { 
-    font-size: 1.8rem; 
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #fff;
+    font-size: 1.8rem; font-weight: 800; letter-spacing: 2px;
+    text-transform: uppercase; color: #fff;
     text-shadow: 0 0 10px #ff4e00, 0 0 20px #ff8800;
   }
 
@@ -50,186 +47,115 @@
     to { box-shadow: 0 0 22px #ff4e00, inset 0 0 15px #ff4e00; }
   }
 
-  /* 3. THANH ĐIỀU KHIỂN (SEARCH & CATEGORY) XỊN MỊN */
+  /* 3. THANH ĐIỀU KHIỂN SEARCH & FILTER */
   .controls {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    flex-grow: 1;
-    justify-content: flex-end;
-    max-width: 700px;
+    display: flex; gap: 20px; flex-wrap: wrap; flex-grow: 1;
+    justify-content: flex-end; max-width: 700px;
   }
 
-  .search-wrapper, .filter-wrapper {
-    position: relative;
-    flex-grow: 1;
-  }
+  .search-wrapper, .filter-wrapper { position: relative; flex-grow: 1; }
 
   .search-wrapper input, select {
     width: 100%;
     background: linear-gradient(135deg, rgba(45, 38, 68, 0.7), rgba(25, 20, 38, 0.9));
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 14px 20px 14px 50px;
-    border-radius: 30px;
-    font-size: 0.95rem;
-    backdrop-filter: blur(10px);
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color: #fff; border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 20px 14px 50px; border-radius: 30px; font-size: 0.95rem;
+    backdrop-filter: blur(10px); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   }
 
   select { padding: 14px 45px 14px 50px; cursor: pointer; appearance: none; }
-
-  .search-wrapper::before {
-    content: "🔍";
-    position: absolute; left: 20px; top: 50%;
-    transform: translateY(-50%); font-size: 1.1rem; opacity: 0.7;
-  }
-
-  .filter-wrapper::before {
-    content: "🧪";
-    position: absolute; left: 20px; top: 50%;
-    transform: translateY(-50%); font-size: 1.1rem; opacity: 0.7;
-  }
-
-  .filter-wrapper::after {
-    content: '▼'; font-size: 0.7rem; position: absolute;
-    right: 22px; top: 50%; transform: translateY(-50%); color: #888;
-    pointer-events: none;
-  }
-
-  .search-wrapper input:focus, select:focus {
-    outline: none;
-    border-color: #00f0ff;
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-    background: linear-gradient(135deg, rgba(55, 48, 88, 0.9), rgba(35, 30, 58, 1));
-  }
+  .search-wrapper::before { content: "🔍"; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.1rem; opacity: 0.7; }
+  .filter-wrapper::before { content: "🧪"; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.1rem; opacity: 0.7; }
+  .filter-wrapper::after { content: '▼'; font-size: 0.7rem; position: absolute; right: 22px; top: 50%; transform: translateY(-50%); color: #888; pointer-events: none; }
+  .search-wrapper input:focus, select:focus { outline: none; border-color: #00f0ff; box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
 
   /* 4. GRID PHIM */
   .grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); 
-    gap: 30px; 
-    padding-top: 10px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); 
+    gap: 30px; padding-top: 10px;
   }
 
-  /* 5. KIỆT TÁC THẺ PHIM (CARD DESIGN) */
+  /* 5. THẺ PHIM */
   .card { 
-    background: #13111c; 
-    border-radius: 16px; 
-    overflow: hidden;
+    background: #13111c; border-radius: 16px; overflow: hidden;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    position: relative;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    display: flex; flex-direction: column; height: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.04); position: relative;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4); cursor: pointer;
   }
 
-  /* Hiệu ứng Hover viền phát sáng đổi màu như ảnh mẫu */
   .card:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 0 15px 30px rgba(233, 30, 99, 0.3), 0 0 15px rgba(0, 240, 255, 0.2);
     border-color: #ff007f;
   }
 
-  /* Container ảnh tỷ lệ vàng điện ảnh */
-  .poster-container {
-    position: relative;
-    width: 100%;
-    padding-top: 145%; 
-    background: #1f1a30;
-    overflow: hidden;
-  }
+  .poster-container { position: relative; width: 100%; padding-top: 145%; background: #1f1a30; overflow: hidden; }
+  .poster-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .card:hover .poster-container img { transform: scale(1.08); }
 
-  .poster-container img { 
+  /* Hiệu ứng Nút Play xuất hiện khi di chuột vào ảnh */
+  .play-hover-btn {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
+    background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.3s ease; z-index: 1;
   }
-
-  .card:hover .poster-container img {
-    transform: scale(1.08);
+  .card:hover .play-hover-btn { opacity: 1; }
+  .play-hover-btn span {
+    background: #ff007f; width: 60px; height: 60px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; font-size: 1.8rem;
+    box-shadow: 0 0 15px #ff007f; transform: scale(0.8); transition: transform 0.3s ease;
   }
+  .card:hover .play-hover-btn span { transform: scale(1); }
 
-  /* Badge HOT & Badge RATE nằm trên ảnh như hình vẽ mẫu */
   .badge-hot {
-    position: absolute; top: 12px; left: 12px;
-    background: linear-gradient(90deg, #ff007f, #ff4e00);
-    color: white; padding: 4px 10px; border-radius: 20px;
-    font-size: 0.75rem; font-weight: bold; letter-spacing: 1px;
-    box-shadow: 0 0 10px #ff007f;
-    z-index: 2;
+    position: absolute; top: 12px; left: 12px; background: linear-gradient(90deg, #ff007f, #ff4e00);
+    color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;
+    box-shadow: 0 0 10px #ff007f; z-index: 2;
   }
 
-  /* Phần chi tiết chữ bên dưới card */
-  .card-info {
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    background: linear-gradient(to bottom, #13111c, #0b0912);
+  .card-info { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; background: linear-gradient(to bottom, #13111c, #0b0912); }
+  .card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  
+  .rating-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .stars { color: #ffb800; font-weight: 700; font-size: 0.9rem; text-shadow: 0 0 6px rgba(255,184,0,0.4); }
+  .type-tag { background: #00bcd4; color: #000; font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+
+  .overview { font-size: 0.85rem; color: #b3a9cb; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-align: justify; opacity: 0.85; }
+  .status-text { grid-column: 1 / -1; text-align: center; font-size: 1.2rem; color: #8b80a7; padding: 80px 0; }
+
+  /* 6. POPUP XEM PHIM (MODAL VIDEO PLAYER) */
+  .movie-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5, 4, 10, 0.95); z-index: 100;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+    backdrop-filter: blur(10px);
   }
 
-  .card h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #fff;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+  .movie-modal.active { opacity: 1; pointer-events: auto; }
+
+  .modal-content {
+    background: #13111c; width: 90%; max-width: 950px;
+    border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative;
   }
 
-  /* Thanh chứa điểm và nhãn RATE màu xanh cyan sành điệu */
-  .rating-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
+  /* Khung chứa Video Player tỉ lệ 16:9 chuẩn màn hình */
+  .player-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+  .player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-  .stars {
-    color: #ffb800;
-    font-weight: 700;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    text-shadow: 0 0 6px rgba(255,184,0,0.4);
-  }
+  .modal-info { padding: 25px; }
+  .modal-info h2 { font-size: 1.6rem; margin-bottom: 10px; color: #00f0ff; }
+  .modal-info p { color: #b3a9cb; font-size: 0.95rem; text-align: justify; }
 
-  .rate-tag {
-    background: #00bcd4;
-    color: #000;
-    font-size: 0.7rem;
-    font-weight: 800;
-    padding: 3px 8px;
-    border-radius: 4px;
-    letter-spacing: 0.5px;
-    box-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
+  .close-modal-btn {
+    position: absolute; top: 15px; right: 20px; background: rgba(255,255,255,0.1);
+    color: white; border: none; width: 40px; height: 40px; border-radius: 50%;
+    font-size: 1.3rem; cursor: pointer; transition: all 0.3s; z-index: 10;
   }
-
-  /* Đoạn text mô tả phim đổ mờ dần */
-  .overview {
-    font-size: 0.85rem;
-    color: #b3a9cb;
-    display: -webkit-box;
-    -webkit-line-clamp: 3; 
-    -webkit-box-orient: vertical;  
-    overflow: hidden;
-    text-align: justify;
-    opacity: 0.85;
-  }
-
-  /* Trạng thái Loading và Thông báo lỗi */
-  .status-text {
-    grid-column: 1 / -1;
-    text-align: center;
-    font-size: 1.2rem;
-    color: #8b80a7;
-    padding: 80px 0;
-    text-shadow: 0 0 10px rgba(139,128,167,0.2);
-  }
+  .close-modal-btn:hover { background: #ff007f; transform: rotate(90deg); box-shadow: 0 0 10px #ff007f; }
 </style>
 </head>
 
@@ -264,39 +190,48 @@
   <div class="status-text">Đang đồng bộ dữ liệu chuẩn Cinema từ hệ thống TMDb...</div>
 </div>
 
+<div class="movie-modal" id="movieModal">
+  <div class="modal-content">
+    <button class="close-modal-btn" id="closeModalBtn">&times;</button>
+    <div class="player-container">
+      <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    </div>
+    <div class="modal-info">
+      <h2 id="modalMovieTitle">Tên Phim</h2>
+      <p id="modalMovieOverview">Mô tả phim...</p>
+    </div>
+  </div>
+</div>
+
 <script>
 const API_KEY = "a66c05af7629c6d5e7942b0375e4942b";
 
 const movies = [
-"Parasite","Train to Busan","The Handmaiden","Oldboy","My Dearest",
-"What’s Wrong with Secretary Kim","Boys Over Flowers","Memories of Murder","The Host","A Taxi Driver",
-"Crash Landing on You","In Your Radiant Season","Descendants of the Sun","Itaewon Class",
+"Parasite","Train to Busan","The Handmaiden","Oldboy",
+"What’s Wrong with Secretary Kim","Memories of Murder","The Host","A Taxi Driver",
+"Crash Landing on You","Descendants of the Sun","Itaewon Class",
 "Vincenzo","Hospital Playlist","Reply 1988","Sky Castle","The Glory",
 "Squid Game","Sweet Home","All of Us Are Dead","Lovely Runner",
 "Mouse","Taxi Driver","Weak Hero Class 1","Start-Up",
 "Business Proposal","Twenty Five Twenty One","Hometown Cha-Cha-Cha",
 "The Penthouse","My Mister","Hotel Del Luna","Twinkling Watermelon",
 "Weightlifting Fairy Kim Bok Joo","Fight For My Way","While You Were Sleeping",
-"Squid Game 2","My Demon","The K2","Arthdal Chronicles",
-"Navillera","Prison Playbook","Exhuma","Black Knight",
-"The Uncanny Counter","The King Eternal Monarch","Run On",
-"Something in the Rain","Forecasting Love and Weather","Youth of May",
-"Chicago Typewriter","Kill Me Heal Me","Snowdrop",
-"Legend of the Blue Sea","Mr Sunshine",
-"Extraordinary Attorney Woo","D.P.","Bloodhounds","Moving",
-"Hellbound","The Silent Sea","Mr Queen",
-"Mask Girl","Through the Darkness",
-"Pyramid Game","The Kidnapping Day","Call It Love",
-"Nevertheless","Love Alarm","Our Beloved Summer",
-"Record of Youth","Love Next Door",
-"Doona!","See You in My 19th Life","King the Land",
-"Destined with You","Marry My Husband",
-"Perfect Marriage Revenge","Vagabond","20th Century Girl"
+"My Demon","The K2","Exhuma","Black Knight","The Uncanny Counter",
+"Extraordinary Attorney Woo","D.P.","Bloodhounds","Moving","Mr Queen",
+"Mask Girl","Through the Darkness","Pyramid Game","Our Beloved Summer",
+"Love Next Door","King the Land","Marry My Husband","Vagabond","20th Century Girl"
 ];
 
 const container = document.getElementById("movies");
 const searchInput = document.getElementById("searchInput");
 const genreFilter = document.getElementById("genreFilter");
+
+// Các phần tử phục vụ Popup Player
+const movieModal = document.getElementById("movieModal");
+const closeModalBtn = document.getElementById("closeModalBtn");
+const videoPlayer = document.getElementById("videoPlayer");
+const modalMovieTitle = document.getElementById("modalMovieTitle");
+const modalMovieOverview = document.getElementById("modalMovieOverview");
 
 let allMoviesData = [];
 
@@ -311,12 +246,12 @@ async function getMovie(name){
     const data = await res.json();
     return data.results ? data.results[0] : null;
   } catch (error) {
-    console.error("Lỗi đồng bộ phim:", name, error);
     return null;
   }
 }
 
-function createCardHTML(movieName, data) {
+// Thay đổi cấu trúc Card để lưu trữ ID và Loại phim (movie hoặc tv) phục vụ việc phát video
+function createCardHTML(movieName, data, index) {
   const poster = data && data.poster_path 
     ? `https://image.tmdb.org/t/p/w500${data.poster_path}` 
     : 'https://via.placeholder.com/500x750?text=No+Poster';
@@ -324,21 +259,23 @@ function createCardHTML(movieName, data) {
   const rawRating = data && data.vote_average ? data.vote_average : 0;
   const rating = rawRating > 0 ? rawRating.toFixed(1) : "N/A";
   const overview = data && data.overview ? data.overview : "Tác phẩm điện ảnh chưa cập nhật nội dung tóm tắt.";
-
-  // Nếu điểm số từ 8.0 trở lên thì kích hoạt Badge HOT đặc biệt
   const isHotBadge = rawRating >= 8.0 ? `<div class="badge-hot">🔥 HOT</div>` : '';
+  
+  // Xác định phim lẻ (movie) hay phim bộ (tv) dựa vào dữ liệu API
+  const mediaType = data.media_type || (data.first_air_date ? "tv" : "movie");
 
   return `
-    <div class="card">
+    <div class="card" onclick="openPlayer('${mediaType}', '${data.id}', \`${movieName.replace(/'/g, "\\'")}\`, \`${overview.replace(/'/g, "\\'")}\`)">
       ${isHotBadge}
       <div class="poster-container">
+        <div class="play-hover-btn"><span>▶</span></div>
         <img src="${poster}" alt="${movieName}" loading="lazy">
       </div>
       <div class="card-info">
         <h3>${movieName}</h3>
         <div class="rating-row">
           <div class="stars">⭐ ${rating}</div>
-          <div class="rate-tag">🔵 RATE</div>
+          <div class="type-tag">${mediaType === 'tv' ? 'Drama bộ' : 'Phim lẻ'}</div>
         </div>
         <p class="overview">${overview}</p>
       </div>
@@ -349,26 +286,25 @@ function createCardHTML(movieName, data) {
 async function render(){
   const fetchPromises = movies.map(async (movie) => {
     const data = await getMovie(movie);
-    if (data) {
+    if (data && data.id) {
       allMoviesData.push({ name: movie, data: data });
     }
   });
 
   await Promise.all(fetchPromises);
-  
   container.innerHTML = "";
   filterAndSearchMovies();
 }
 
 function displayMovies(moviesList) {
   if(moviesList.length === 0) {
-    container.innerHTML = `<div class="status-text">🔍 Không tìm thấy kết quả nào phù hợp với bộ lọc hiện tại.</div>`;
+    container.innerHTML = `<div class="status-text">🔍 Không tìm thấy kết quả nào phù hợp.</div>`;
     return;
   }
   
   let htmlContent = "";
-  moviesList.forEach(item => {
-    htmlContent += createCardHTML(item.name, item.data);
+  moviesList.forEach((item, index) => {
+    htmlContent += createCardHTML(item.name, item.data, index);
   });
   container.innerHTML = htmlContent;
 }
@@ -382,12 +318,36 @@ function filterAndSearchMovies(){
     const genres = item.data.genre_ids || [];
     const movieGenres = genres.map(id => genreMap[id]);
     const matchesGenre = (selectedGenre === "all") || movieGenres.includes(selectedGenre);
-
     return matchesSearch && matchesGenre;
   });
 
   displayMovies(filtered);
 }
+
+// LỰA CHỌN KHUNG PHÁT VIDEO (POPUP MODAL)
+function openPlayer(mediaType, tmdbId, title, overview) {
+  modalMovieTitle.innerText = title;
+  modalMovieOverview.innerText = overview;
+
+  // Sử dụng API Embed Player uy tín để kéo video luồng phim (Mặc định có Vietsub)
+  // vidsrc.to tự động xử lý lấy nguồn phim dựa trên ID hệ thống TMDb toàn cầu
+  const playerUrl = `https://vidsrc.to/embed/${mediaType}/${tmdbId}`;
+  
+  videoPlayer.src = playerUrl;
+  movieModal.classList.add("active");
+}
+
+// ĐÓNG KHUNG PHÁT VIDEO VÀ DỪNG NHẠC/PHIM TRÁNH CHẠY NGẦM
+function closeModal() {
+  movieModal.classList.remove("active");
+  videoPlayer.src = ""; // Xoá URL để phim ngừng chạy ngầm dưới nền
+}
+
+closeModalBtn.addEventListener("click", closeModal);
+// Đóng cửa sổ khi bấm ra vùng trống bên ngoài khung phim
+movieModal.addEventListener("click", (e) => {
+  if(e.target === movieModal) closeModal();
+});
 
 searchInput.addEventListener("input", filterAndSearchMovies);
 genreFilter.addEventListener("change", filterAndSearchMovies);
