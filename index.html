@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K-Media Hub - Xem Phim Trực Tuyến</title>
+<title>K-Media Hub - Khám Phá Điện Ảnh</title>
 <style>
   /* 1. NỀN TẢNG VIA CINEMATIC */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -19,20 +19,13 @@
 
   /* 2. HEADER & LOGO NEON */
   header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 50px;
-    flex-wrap: wrap;
-    gap: 25px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 50px; flex-wrap: wrap; gap: 25px;
   }
 
   .logo-container {
-    border: 3px solid #ff4e00;
-    padding: 10px 25px;
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 15px #ff4e00, inset 0 0 10px #ff4e00;
+    border: 3px solid #ff4e00; padding: 10px 25px; border-radius: 12px;
+    background: rgba(0, 0, 0, 0.4); box-shadow: 0 0 15px #ff4e00, inset 0 0 10px #ff4e00;
     animation: neonPulse 2s infinite alternate;
   }
 
@@ -70,13 +63,13 @@
   .filter-wrapper::after { content: '▼'; font-size: 0.7rem; position: absolute; right: 22px; top: 50%; transform: translateY(-50%); color: #888; pointer-events: none; }
   .search-wrapper input:focus, select:focus { outline: none; border-color: #00f0ff; box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
 
-  /* 4. GRID PHIM */
+  /* 4. GRID PHIM MÀN HÌNH CHÍNH */
   .grid { 
     display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); 
     gap: 30px; padding-top: 10px;
   }
 
-  /* 5. THẺ PHIM */
+  /* 5. THẺ PHIM CHÍNH */
   .card { 
     background: #13111c; border-radius: 16px; overflow: hidden;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -95,19 +88,18 @@
   .poster-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
   .card:hover .poster-container img { transform: scale(1.08); }
 
-  /* Hiệu ứng Nút Play xuất hiện khi di chuột vào ảnh */
-  .play-hover-btn {
+  .info-hover-btn {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center;
+    background: rgba(13, 10, 21, 0.6); display: flex; justify-content: center; align-items: center;
     opacity: 0; transition: opacity 0.3s ease; z-index: 1;
   }
-  .card:hover .play-hover-btn { opacity: 1; }
-  .play-hover-btn span {
-    background: #ff007f; width: 60px; height: 60px; border-radius: 50%;
-    display: flex; justify-content: center; align-items: center; font-size: 1.8rem;
-    box-shadow: 0 0 15px #ff007f; transform: scale(0.8); transition: transform 0.3s ease;
+  .card:hover .info-hover-btn { opacity: 1; }
+  .info-hover-btn span {
+    background: linear-gradient(45deg, #00f0ff, #00bcd4); color: #000; padding: 10px 20px; border-radius: 20px;
+    font-size: 0.85rem; font-weight: bold; box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+    transform: translateY(10px); transition: transform 0.3s ease;
   }
-  .card:hover .play-hover-btn span { transform: scale(1); }
+  .card:hover .info-hover-btn span { transform: translateY(0); }
 
   .badge-hot {
     position: absolute; top: 12px; left: 12px; background: linear-gradient(90deg, #ff007f, #ff4e00);
@@ -120,42 +112,86 @@
   
   .rating-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
   .stars { color: #ffb800; font-weight: 700; font-size: 0.9rem; text-shadow: 0 0 6px rgba(255,184,0,0.4); }
-  .type-tag { background: #00bcd4; color: #000; font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+  .type-tag { background: rgba(255,255,255,0.1); color: #b3a9cb; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
 
   .overview { font-size: 0.85rem; color: #b3a9cb; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-align: justify; opacity: 0.85; }
   .status-text { grid-column: 1 / -1; text-align: center; font-size: 1.2rem; color: #8b80a7; padding: 80px 0; }
 
-  /* 6. POPUP XEM PHIM (MODAL VIDEO PLAYER) */
+  /* 6. POPUP CHI TIẾT PHIM CẢI TIẾN (SCROLL ĐƯỢC) */
   .movie-modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(5, 4, 10, 0.95); z-index: 100;
+    background: rgba(5, 4, 10, 0.85); z-index: 100;
     display: flex; justify-content: center; align-items: center;
     opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px); padding: 20px;
   }
 
   .movie-modal.active { opacity: 1; pointer-events: auto; }
 
   .modal-content {
-    background: #13111c; width: 90%; max-width: 950px;
-    border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative;
+    background: #14121f; width: 100%; max-width: 850px; max-height: 90vh;
+    border-radius: 24px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8); position: relative;
+    scrollbar-width: thin; scrollbar-color: #ff007f #14121f;
   }
 
-  /* Khung chứa Video Player tỉ lệ 16:9 chuẩn màn hình */
-  .player-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
-  .player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+  .modal-banner {
+    position: relative; width: 100%; padding-top: 40%; background: #07060b;
+  }
+  .modal-banner img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+  .modal-banner::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, #14121f 10%, transparent 100%);
+  }
 
-  .modal-info { padding: 25px; }
-  .modal-info h2 { font-size: 1.6rem; margin-bottom: 10px; color: #00f0ff; }
-  .modal-info p { color: #b3a9cb; font-size: 0.95rem; text-align: justify; }
+  .modal-body { display: flex; gap: 30px; padding: 0 35px 35px 35px; margin-top: -80px; position: relative; z-index: 2; flex-direction: column; }
+  
+  .modal-main-info { display: flex; gap: 30px; }
+  .modal-poster { width: 165px; flex-shrink: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.1); }
+  .modal-poster img { width: 100%; display: block; }
+
+  .modal-details { flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; }
+  .modal-details h2 { font-size: 1.9rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
+  
+  .meta-row { display: flex; gap: 12px; font-size: 0.85rem; color: #00f0ff; font-weight: 600; margin-bottom: 12px; flex-wrap: wrap; }
+  .meta-row span { background: rgba(0, 240, 255, 0.1); padding: 2px 10px; border-radius: 20px; }
+  .meta-row .modal-rating { color: #ffb800; background: rgba(255,184,0,0.1); }
+
+  .modal-section-title { font-size: 1.1rem; font-weight: 700; color: #ff007f; margin: 20px 0 8px 0; border-left: 4px solid #ff007f; padding-left: 10px; }
+  .modal-overview { color: #cbd5e1; font-size: 0.95rem; text-align: justify; line-height: 1.7; }
+  
+  /* Phần thông tin Diễn viên */
+  .modal-cast { color: #e2e8f0; font-size: 0.95rem; line-height: 1.6; }
+  .modal-cast strong { color: #00f0ff; }
+
+  /* 7. PHẦN PHIM GỢI Ý (RECOMMENDATIONS SLIDER) */
+  .recommendations-container {
+    display: flex; gap: 15px; overflow-x: auto; padding: 5px 5px 15px 5px;
+    scrollbar-width: thin; scrollbar-color: #333 transparent;
+  }
+  
+  .rec-card {
+    width: 120px; flex-shrink: 0; cursor: pointer; transition: transform 0.3s;
+  }
+  .rec-card:hover { transform: scale(1.05); }
+  .rec-card img { width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); }
+  .rec-card p { font-size: 0.75rem; text-align: center; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #94a3b8; }
+  .rec-card:hover p { color: #fff; }
 
   .close-modal-btn {
-    position: absolute; top: 15px; right: 20px; background: rgba(255,255,255,0.1);
+    position: fixed; top: 35px; right: calc(5% + 20px); background: rgba(0,0,0,0.6);
     color: white; border: none; width: 40px; height: 40px; border-radius: 50%;
-    font-size: 1.3rem; cursor: pointer; transition: all 0.3s; z-index: 10;
+    font-size: 1.3rem; cursor: pointer; transition: all 0.3s; z-index: 110;
+    display: flex; justify-content: center; align-items: center; border: 1px solid rgba(255,255,255,0.1);
   }
-  .close-modal-btn:hover { background: #ff007f; transform: rotate(90deg); box-shadow: 0 0 10px #ff007f; }
+  .close-modal-btn:hover { background: #ff007f; transform: rotate(90deg); box-shadow: 0 0 15px #ff007f; }
+
+  @media (max-width: 650px) {
+    .modal-main-info { flex-direction: column; align-items: center; text-align: center; }
+    .modal-poster { width: 135px; }
+    .modal-details { align-items: center; }
+    .meta-row { justify-content: center; }
+  }
 </style>
 </head>
 
@@ -191,14 +227,45 @@
 </div>
 
 <div class="movie-modal" id="movieModal">
-  <div class="modal-content">
-    <button class="close-modal-btn" id="closeModalBtn">&times;</button>
-    <div class="player-container">
-      <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+  <button class="close-modal-btn" id="closeModalBtn">&times;</button>
+  <div class="modal-content" id="modalContent">
+    
+    <div class="modal-banner">
+      <img id="modalBackdrop" src="" alt="Banner">
     </div>
-    <div class="modal-info">
-      <h2 id="modalMovieTitle">Tên Phim</h2>
-      <p id="modalMovieOverview">Mô tả phim...</p>
+    
+    <div class="modal-body">
+      <div class="modal-main-info">
+        <div class="modal-poster">
+          <img id="modalPoster" src="" alt="Poster">
+        </div>
+        <div class="modal-details">
+          <h2 id="modalTitle">Tên Phim</h2>
+          <div class="meta-row">
+            <span id="modalRating" class="modal-rating">⭐ N/A</span>
+            <span id="modalYear">Năm</span>
+            <span id="modalRuntime">Thời lượng</span>
+          </div>
+          <div class="meta-row" id="modalGenres"></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="modal-section-title">Nội dung tóm tắt</div>
+        <p class="modal-overview" id="modalOverview">Mô tả chi tiết...</p>
+      </div>
+
+      <div>
+        <div class="modal-section-title">Diễn viên chính</div>
+        <p class="modal-cast" id="modalCast">Đang tải danh sách diễn viên...</p>
+      </div>
+
+      <div>
+        <div class="modal-section-title">Phim cùng thể loại gợi ý</div>
+        <div class="recommendations-container" id="modalRecommendations">
+          </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -226,12 +293,20 @@ const container = document.getElementById("movies");
 const searchInput = document.getElementById("searchInput");
 const genreFilter = document.getElementById("genreFilter");
 
-// Các phần tử phục vụ Popup Player
+// Các phần tử Popup
 const movieModal = document.getElementById("movieModal");
+const modalContent = document.getElementById("modalContent");
 const closeModalBtn = document.getElementById("closeModalBtn");
-const videoPlayer = document.getElementById("videoPlayer");
-const modalMovieTitle = document.getElementById("modalMovieTitle");
-const modalMovieOverview = document.getElementById("modalMovieOverview");
+const modalBackdrop = document.getElementById("modalBackdrop");
+const modalPoster = document.getElementById("modalPoster");
+const modalTitle = document.getElementById("modalTitle");
+const modalRating = document.getElementById("modalRating");
+const modalYear = document.getElementById("modalYear");
+const modalRuntime = document.getElementById("modalRuntime");
+const modalGenres = document.getElementById("modalGenres");
+const modalOverview = document.getElementById("modalOverview");
+const modalCast = document.getElementById("modalCast");
+const modalRecommendations = document.getElementById("modalRecommendations");
 
 let allMoviesData = [];
 
@@ -245,30 +320,22 @@ async function getMovie(name){
     const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(name)}`);
     const data = await res.json();
     return data.results ? data.results[0] : null;
-  } catch (error) {
-    return null;
-  }
+  } catch (error) { return null; }
 }
 
-// Thay đổi cấu trúc Card để lưu trữ ID và Loại phim (movie hoặc tv) phục vụ việc phát video
-function createCardHTML(movieName, data, index) {
-  const poster = data && data.poster_path 
-    ? `https://image.tmdb.org/t/p/w500${data.poster_path}` 
-    : 'https://via.placeholder.com/500x750?text=No+Poster';
-  
+function createCardHTML(movieName, data) {
+  const poster = data && data.poster_path ? `https://image.tmdb.org/t/p/w500${data.poster_path}` : 'https://via.placeholder.com/500x750?text=No+Poster';
   const rawRating = data && data.vote_average ? data.vote_average : 0;
   const rating = rawRating > 0 ? rawRating.toFixed(1) : "N/A";
   const overview = data && data.overview ? data.overview : "Tác phẩm điện ảnh chưa cập nhật nội dung tóm tắt.";
   const isHotBadge = rawRating >= 8.0 ? `<div class="badge-hot">🔥 HOT</div>` : '';
-  
-  // Xác định phim lẻ (movie) hay phim bộ (tv) dựa vào dữ liệu API
   const mediaType = data.media_type || (data.first_air_date ? "tv" : "movie");
 
   return `
-    <div class="card" onclick="openPlayer('${mediaType}', '${data.id}', \`${movieName.replace(/'/g, "\\'")}\`, \`${overview.replace(/'/g, "\\'")}\`)">
+    <div class="card" onclick="showMovieDetails('${mediaType}', '${data.id}')">
       ${isHotBadge}
       <div class="poster-container">
-        <div class="play-hover-btn"><span>▶</span></div>
+        <div class="info-hover-btn"><span>Chi tiết 🔍</span></div>
         <img src="${poster}" alt="${movieName}" loading="lazy">
       </div>
       <div class="card-info">
@@ -286,11 +353,8 @@ function createCardHTML(movieName, data, index) {
 async function render(){
   const fetchPromises = movies.map(async (movie) => {
     const data = await getMovie(movie);
-    if (data && data.id) {
-      allMoviesData.push({ name: movie, data: data });
-    }
+    if (data && data.id) { allMoviesData.push({ name: movie, data: data }); }
   });
-
   await Promise.all(fetchPromises);
   container.innerHTML = "";
   filterAndSearchMovies();
@@ -301,11 +365,8 @@ function displayMovies(moviesList) {
     container.innerHTML = `<div class="status-text">🔍 Không tìm thấy kết quả nào phù hợp.</div>`;
     return;
   }
-  
   let htmlContent = "";
-  moviesList.forEach((item, index) => {
-    htmlContent += createCardHTML(item.name, item.data, index);
-  });
+  moviesList.forEach(item => { htmlContent += createCardHTML(item.name, item.data); });
   container.innerHTML = htmlContent;
 }
 
@@ -320,34 +381,92 @@ function filterAndSearchMovies(){
     const matchesGenre = (selectedGenre === "all") || movieGenres.includes(selectedGenre);
     return matchesSearch && matchesGenre;
   });
-
   displayMovies(filtered);
 }
 
-// LỰA CHỌN KHUNG PHÁT VIDEO (POPUP MODAL)
-function openPlayer(mediaType, tmdbId, title, overview) {
-  modalMovieTitle.innerText = title;
-  modalMovieOverview.innerText = overview;
+// HÀM LẤY CHI TIẾT PHIM + DIỄN VIÊN + PHIM GỢI Ý
+async function showMovieDetails(mediaType, id) {
+  try {
+    // Cuộn popup lên đầu trang mỗi khi mở phim mới
+    modalContent.scrollTop = 0;
 
-  // Sử dụng API Embed Player uy tín để kéo video luồng phim (Mặc định có Vietsub)
-  // vidsrc.to tự động xử lý lấy nguồn phim dựa trên ID hệ thống TMDb toàn cầu
-  const playerUrl = `https://vidsrc.to/embed/${mediaType}/${tmdbId}`;
-  
-  videoPlayer.src = playerUrl;
-  movieModal.classList.add("active");
+    // 1. Lấy thông tin chi tiết phim (có dịch tiếng Việt)
+    const res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}?api_key=${API_KEY}&language=vi-VN`);
+    let data = await res.json();
+    if (!data.overview) {
+      const resEn = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}?api_key=${API_KEY}`);
+      data = await resEn.json();
+    }
+
+    // Đổ dữ liệu cơ bản
+    modalBackdrop.src = data.backdrop_path ? `https://image.tmdb.org/t/p/w1280${data.backdrop_path}` : '';
+    modalPoster.src = data.poster_path ? `https://image.tmdb.org/t/p/w500${data.poster_path}` : 'https://via.placeholder.com/500x750?text=No+Poster';
+    modalTitle.innerText = data.title || data.name || "Chưa rõ tên";
+    modalRating.innerText = `⭐ ${data.vote_average ? data.vote_average.toFixed(1) : "N/A"}`;
+    
+    const releaseDate = data.release_date || data.first_air_date || "";
+    modalYear.innerText = releaseDate ? `Năm: ${releaseDate.substring(0, 4)}` : "Năm: N/A";
+    
+    if (mediaType === "movie") {
+      modalRuntime.innerText = data.runtime ? `${data.runtime} phút` : "Thời lượng: N/A";
+    } else {
+      modalRuntime.innerText = data.number_of_seasons ? `${data.number_of_seasons} Mùa (${data.number_of_episodes} Tập)` : "Phim bộ";
+    }
+    
+    modalGenres.innerHTML = "";
+    if (data.genres) {
+      data.genres.forEach(g => {
+        const span = document.createElement("span"); span.innerText = g.name; modalGenres.appendChild(span);
+      });
+    }
+    modalOverview.innerText = data.overview || "Tác phẩm hiện tại chưa được cập nhật phần mô tả nội dung.";
+
+    // 2. GỌI API ĐỂ LẤY DIỄN VIÊN (CREDITS)
+    modalCast.innerText = "Đang cập nhật danh sách diễn viên...";
+    const creditsRes = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/credits?api_key=${API_KEY}`);
+    const creditsData = await creditsRes.json();
+    if (creditsData.cast && creditsData.cast.length > 0) {
+      // Lấy tối đa 6 diễn viên đầu tiên và nối thành chuỗi
+      const topCast = creditsData.cast.slice(0, 6).map(c => `${c.name} (vai ${c.character || 'Chưa rõ'})`);
+      modalCast.innerHTML = `Các ngôi sao chính: <strong>${topCast.join(', ')}</strong>`;
+    } else {
+      modalCast.innerText = "Thông tin về diễn viên đang được cập nhật.";
+    }
+
+    // 3. GỌI API ĐỂ LẤY PHIM GỢI Ý (RECOMMENDATIONS)
+    modalRecommendations.innerHTML = "Đang tìm kiếm phim tương thích...";
+    const recRes = await fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/recommendations?api_key=${API_KEY}&language=vi-VN&page=1`);
+    const recData = await recRes.json();
+    
+    if (recData.results && recData.results.length > 0) {
+      modalRecommendations.innerHTML = "";
+      // Lấy tối đa 8 bộ phim gợi ý
+      recData.results.slice(0, 8).forEach(rec => {
+        const recPoster = rec.poster_path ? `https://image.tmdb.org/t/p/w185${rec.poster_path}` : 'https://via.placeholder.com/185x278?text=No+Img';
+        const recTitle = rec.title || rec.name;
+        
+        const recCard = document.createElement("div");
+        recCard.className = "rec-card";
+        // Khi bấm vào phim gợi ý, Popup tự động cập nhật lại theo ID phim đó!
+        recCard.onclick = () => showMovieDetails(mediaType, rec.id);
+        
+        recCard.innerHTML = `
+          <img src="${recPoster}" alt="${recTitle}">
+          <p title="${recTitle}">${recTitle}</p>
+        `;
+        modalRecommendations.appendChild(recCard);
+      });
+    } else {
+      modalRecommendations.innerText = "Chưa có đề xuất phim tương tự cho tác phẩm này.";
+    }
+
+    movieModal.classList.add("active");
+  } catch (error) { console.error(error); }
 }
 
-// ĐÓNG KHUNG PHÁT VIDEO VÀ DỪNG NHẠC/PHIM TRÁNH CHẠY NGẦM
-function closeModal() {
-  movieModal.classList.remove("active");
-  videoPlayer.src = ""; // Xoá URL để phim ngừng chạy ngầm dưới nền
-}
-
+function closeModal() { movieModal.classList.remove("active"); }
 closeModalBtn.addEventListener("click", closeModal);
-// Đóng cửa sổ khi bấm ra vùng trống bên ngoài khung phim
-movieModal.addEventListener("click", (e) => {
-  if(e.target === movieModal) closeModal();
-});
+movieModal.addEventListener("click", (e) => { if(e.target === movieModal) closeModal(); });
 
 searchInput.addEventListener("input", filterAndSearchMovies);
 genreFilter.addEventListener("change", filterAndSearchMovies);
