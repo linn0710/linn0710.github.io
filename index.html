@@ -1,113 +1,268 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html> 
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Korean Movies</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-Media Hub - Premium Cinema Experience</title>
 <style>
-html {
-  scroll-behavior: smooth;
-}
-body {
-  background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
-  color: white;
-  font-family: 'Segoe UI', Arial;
-  margin: 0;
-  padding: 20px;
-}
+  /* 1. NỀN TẢNG & BIẾN SẮC MÀU (CINEMATIC GRADIENT) */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body { 
+    background: radial-gradient(circle at 50% 0%, #1a1528 0%, #0d0a15 50%, #05040a 100%);
+    color: #ffffff; 
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+    padding: 40px 5%;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 32px;
-  letter-spacing: 1px;
-}
+  /* 2. HEADER & LOGO NEON PHÁT SÁNG */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    gap: 25px;
+  }
 
-/* FILTER */
-#genreFilter {
-  display: block;
-  margin: 0 auto 30px auto;
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: none;
-  background: #222;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
+  .logo-container {
+    border: 3px solid #ff4e00;
+    padding: 10px 25px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 15px #ff4e00, inset 0 0 10px #ff4e00;
+    animation: neonPulse 2s infinite alternate;
+  }
 
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
-}
+  h1 { 
+    font-size: 1.8rem; 
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 0 10px #ff4e00, 0 0 20px #ff8800;
+  }
 
-/* CARD */
-.card {
-  background: #1e1e1e;
-  border-radius: 15px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  position: relative;
-}
+  @keyframes neonPulse {
+    from { box-shadow: 0 0 10px #ff4e00, inset 0 0 5px #ff4e00; }
+    to { box-shadow: 0 0 22px #ff4e00, inset 0 0 15px #ff4e00; }
+  }
 
-/* HOVER EFFECT */
-.card:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-}
+  /* 3. THANH ĐIỀU KHIỂN (SEARCH & CATEGORY) XỊN MỊN */
+  .controls {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    justify-content: flex-end;
+    max-width: 700px;
+  }
 
-/* POSTER */
-.card img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-}
+  .search-wrapper, .filter-wrapper {
+    position: relative;
+    flex-grow: 1;
+  }
 
-/* CONTENT */
-.card h3 {
-  font-size: 16px;
-  margin: 10px;
-}
+  .search-wrapper input, select {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(45, 38, 68, 0.7), rgba(25, 20, 38, 0.9));
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 20px 14px 50px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
 
-.card p {
-  font-size: 13px;
-  margin: 0 10px 10px;
-  color: #ccc;
-}
+  select { padding: 14px 45px 14px 50px; cursor: pointer; appearance: none; }
 
-/* RATING BADGE */
-.card p:first-of-type {
-  color: #ffd700;
-  font-weight: bold;
-}
+  .search-wrapper::before {
+    content: "🔍";
+    position: absolute; left: 20px; top: 50%;
+    transform: translateY(-50%); font-size: 1.1rem; opacity: 0.7;
+  }
 
-/* OVERVIEW LIMIT */
-.card p:last-of-type {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+  .filter-wrapper::before {
+    content: "🧪";
+    position: absolute; left: 20px; top: 50%;
+    transform: translateY(-50%); font-size: 1.1rem; opacity: 0.7;
+  }
+
+  .filter-wrapper::after {
+    content: '▼'; font-size: 0.7rem; position: absolute;
+    right: 22px; top: 50%; transform: translateY(-50%); color: #888;
+    pointer-events: none;
+  }
+
+  .search-wrapper input:focus, select:focus {
+    outline: none;
+    border-color: #00f0ff;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    background: linear-gradient(135deg, rgba(55, 48, 88, 0.9), rgba(35, 30, 58, 1));
+  }
+
+  /* 4. GRID PHIM */
+  .grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); 
+    gap: 30px; 
+    padding-top: 10px;
+  }
+
+  /* 5. KIỆT TÁC THẺ PHIM (CARD DESIGN) */
+  .card { 
+    background: #13111c; 
+    border-radius: 16px; 
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  }
+
+  /* Hiệu ứng Hover viền phát sáng đổi màu như ảnh mẫu */
+  .card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(233, 30, 99, 0.3), 0 0 15px rgba(0, 240, 255, 0.2);
+    border-color: #ff007f;
+  }
+
+  /* Container ảnh tỷ lệ vàng điện ảnh */
+  .poster-container {
+    position: relative;
+    width: 100%;
+    padding-top: 145%; 
+    background: #1f1a30;
+    overflow: hidden;
+  }
+
+  .poster-container img { 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .card:hover .poster-container img {
+    transform: scale(1.08);
+  }
+
+  /* Badge HOT & Badge RATE nằm trên ảnh như hình vẽ mẫu */
+  .badge-hot {
+    position: absolute; top: 12px; left: 12px;
+    background: linear-gradient(90deg, #ff007f, #ff4e00);
+    color: white; padding: 4px 10px; border-radius: 20px;
+    font-size: 0.75rem; font-weight: bold; letter-spacing: 1px;
+    box-shadow: 0 0 10px #ff007f;
+    z-index: 2;
+  }
+
+  /* Phần chi tiết chữ bên dưới card */
+  .card-info {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background: linear-gradient(to bottom, #13111c, #0b0912);
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+  }
+
+  /* Thanh chứa điểm và nhãn RATE màu xanh cyan sành điệu */
+  .rating-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .stars {
+    color: #ffb800;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-shadow: 0 0 6px rgba(255,184,0,0.4);
+  }
+
+  .rate-tag {
+    background: #00bcd4;
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
+  }
+
+  /* Đoạn text mô tả phim đổ mờ dần */
+  .overview {
+    font-size: 0.85rem;
+    color: #b3a9cb;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    text-align: justify;
+    opacity: 0.85;
+  }
+
+  /* Trạng thái Loading và Thông báo lỗi */
+  .status-text {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #8b80a7;
+    padding: 80px 0;
+    text-shadow: 0 0 10px rgba(139,128,167,0.2);
+  }
 </style>
 </head>
 
 <body>
 
-<h1>🎬 Korean Movies & Dramas</h1>
-<select id="genreFilter">
-  <option value="all">All</option>
-  <option value="Action">Action</option>
-  <option value="Drama">Drama</option>
-  <option value="Comedy">Comedy</option>
-  <option value="Romance">Romance</option>
-  <option value="Thriller">Thriller</option>
-  <option value="Horror">Horror</option>
-  <option value="Sci-Fi">Sci-Fi</option>
-</select>
-<p id="loading" style="text-align:center;">Loading movies...</p>
-<div class="grid" id="movies"></div>
+<header>
+  <div class="logo-container">
+    <h1>🎬 K-Media Hub</h1>
+  </div>
+  
+  <div class="controls">
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" placeholder="Tìm tên tác phẩm...">
+    </div>
+    
+    <div class="filter-wrapper">
+      <select id="genreFilter">
+        <option value="all">Category (Tất cả)</option>
+        <option value="Action">Hành động</option>
+        <option value="Drama">Chính kịch</option>
+        <option value="Comedy">Hài hước</option>
+        <option value="Romance">Lãng mạn</option>
+        <option value="Thriller">Giật gân</option>
+        <option value="Horror">Kinh dị</option>
+        <option value="Sci-Fi">Viễn tưởng</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<div class="grid" id="movies">
+  <div class="status-text">Đang đồng bộ dữ liệu chuẩn Cinema từ hệ thống TMDb...</div>
+</div>
 
 <script>
 const API_KEY = "a66c05af7629c6d5e7942b0375e4942b";
@@ -117,108 +272,127 @@ const movies = [
 "What’s Wrong with Secretary Kim","Boys Over Flowers","Memories of Murder","The Host","A Taxi Driver",
 "Crash Landing on You","In Your Radiant Season","Descendants of the Sun","Itaewon Class",
 "Vincenzo","Hospital Playlist","Reply 1988","Sky Castle","The Glory",
-"Squid Game","Sweet Home","All of Us Are Dead","Moon Lovers: Scarlet Heart Ryeo","Lovely Runner",
-"Perfect Crown","Mouse","Taxi Driver","Weak Hero Class 1","Start-Up",
+"Squid Game","Sweet Home","All of Us Are Dead","Lovely Runner",
+"Mouse","Taxi Driver","Weak Hero Class 1","Start-Up",
 "Business Proposal","Twenty Five Twenty One","Hometown Cha-Cha-Cha",
-
 "The Penthouse","My Mister","Hotel Del Luna","Twinkling Watermelon",
 "Weightlifting Fairy Kim Bok Joo","Fight For My Way","While You Were Sleeping",
-"Sweet Home","Squid Game 2","Dear X","My Demon","The K2","Arthdal Chronicles",
-"Navillera","Prison Playbook","Exhuma","Black Knight","Boyfriend On Demand",
+"Squid Game 2","My Demon","The K2","Arthdal Chronicles",
+"Navillera","Prison Playbook","Exhuma","Black Knight",
 "The Uncanny Counter","The King Eternal Monarch","Run On",
 "Something in the Rain","Forecasting Love and Weather","Youth of May",
 "Chicago Typewriter","Kill Me Heal Me","Snowdrop",
-"Legend of the Blue Sea","Angel's Last Mission","Mr Sunshine",
-
-// 🔥 thay phim cổ bằng phim mới nổi hơn
+"Legend of the Blue Sea","Mr Sunshine",
 "Extraordinary Attorney Woo","D.P.","Bloodhounds","Moving",
-"The Trauma Code: Heroes on Call","Hellbound","The Silent Sea","Mr Queen",
-"Mask Girl","A Killer's Shopping List","Through the Darkness",
+"Hellbound","The Silent Sea","Mr Queen",
+"Mask Girl","Through the Darkness",
 "Pyramid Game","The Kidnapping Day","Call It Love",
 "Nevertheless","Love Alarm","Our Beloved Summer",
-"Sh**ting Stars","Record of Youth","Love Next Door",
+"Record of Youth","Love Next Door",
 "Doona!","See You in My 19th Life","King the Land",
-"Destined with You","My Demon","Marry My Husband",
-"Perfect Marriage Revenge","Vagabond","20th Century Girl",
-"Our Universe","Class of Lies"
+"Destined with You","Marry My Husband",
+"Perfect Marriage Revenge","Vagabond","20th Century Girl"
 ];
 
 const container = document.getElementById("movies");
+const searchInput = document.getElementById("searchInput");
+const genreFilter = document.getElementById("genreFilter");
+
 let allMoviesData = [];
+
+const genreMap = {
+  28: "Action", 35: "Comedy", 18: "Drama", 10749: "Romance", 
+  53: "Thriller", 27: "Horror", 878: "Sci-Fi"
+};
+
 async function getMovie(name){
-  const res = await fetch(
-    `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(name)}`
-  );
-  const data = await res.json();
-  return data.results[0];
-}
-
-async function render(){
-  for (let movie of movies){
-    const data = await getMovie(movie);
-	if(data){
-  		allMoviesData.push({ name: movie, data: data });
-}
-    const card = document.createElement("div");
-    card.className = "card";
-
-    if(data){
-      card.innerHTML = `
-        <img src="https://image.tmdb.org/t/p/w500${data.poster_path}">
-        <h3>${movie}</h3>
-        <p>⭐ ${data.vote_average}</p>
-        <p>${data.overview || "No description"}</p>
-      `;
-    } else {
-      card.innerHTML = `
-        <h3>${movie}</h3>
-        <p>⭐ N/A</p>
-        <p>No data found</p>
-      `;
-    }
-
-    container.appendChild(card);
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(name)}`);
+    const data = await res.json();
+    return data.results ? data.results[0] : null;
+  } catch (error) {
+    console.error("Lỗi đồng bộ phim:", name, error);
+    return null;
   }
 }
 
-render();
-document.getElementById("loading").style.display = "none";
-function filterMovies(){
-  const selected = document.getElementById("genreFilter").value;
-  container.innerHTML = "";
+function createCardHTML(movieName, data) {
+  const poster = data && data.poster_path 
+    ? `https://image.tmdb.org/t/p/w500${data.poster_path}` 
+    : 'https://via.placeholder.com/500x750?text=No+Poster';
+  
+  const rawRating = data && data.vote_average ? data.vote_average : 0;
+  const rating = rawRating > 0 ? rawRating.toFixed(1) : "N/A";
+  const overview = data && data.overview ? data.overview : "Tác phẩm điện ảnh chưa cập nhật nội dung tóm tắt.";
 
-  allMoviesData.forEach(item => {
-    const genres = item.data.genre_ids || [];
+  // Nếu điểm số từ 8.0 trở lên thì kích hoạt Badge HOT đặc biệt
+  const isHotBadge = rawRating >= 8.0 ? `<div class="badge-hot">🔥 HOT</div>` : '';
 
-    // map genre TMDb ID → tên
-    const genreMap = {
-      28:"Action",
-      35:"Comedy",
-      18:"Drama",
-      10749:"Romance",
-      53:"Thriller",
-      27:"Horror",
-      878:"Sci-Fi"
-    };
+  return `
+    <div class="card">
+      ${isHotBadge}
+      <div class="poster-container">
+        <img src="${poster}" alt="${movieName}" loading="lazy">
+      </div>
+      <div class="card-info">
+        <h3>${movieName}</h3>
+        <div class="rating-row">
+          <div class="stars">⭐ ${rating}</div>
+          <div class="rate-tag">🔵 RATE</div>
+        </div>
+        <p class="overview">${overview}</p>
+      </div>
+    </div>
+  `;
+}
 
-    const movieGenres = genres.map(id => genreMap[id]);
-
-    if(selected === "all" || movieGenres.includes(selected)){
-      const card = document.createElement("div");
-      card.className = "card";
-
-      card.innerHTML = `
-        <img src="https://image.tmdb.org/t/p/w500${item.data.poster_path}">
-        <h3>${item.name}</h3>
-        <p>⭐ ${item.data.vote_average}</p>
-        <p>${item.data.overview || "No description"}</p>
-      `;
-
-      container.appendChild(card);
+async function render(){
+  const fetchPromises = movies.map(async (movie) => {
+    const data = await getMovie(movie);
+    if (data) {
+      allMoviesData.push({ name: movie, data: data });
     }
   });
+
+  await Promise.all(fetchPromises);
+  
+  container.innerHTML = "";
+  filterAndSearchMovies();
 }
-document.getElementById("genreFilter").addEventListener("change", filterMovies);
+
+function displayMovies(moviesList) {
+  if(moviesList.length === 0) {
+    container.innerHTML = `<div class="status-text">🔍 Không tìm thấy kết quả nào phù hợp với bộ lọc hiện tại.</div>`;
+    return;
+  }
+  
+  let htmlContent = "";
+  moviesList.forEach(item => {
+    htmlContent += createCardHTML(item.name, item.data);
+  });
+  container.innerHTML = htmlContent;
+}
+
+function filterAndSearchMovies(){
+  const searchQuery = searchInput.value.toLowerCase().trim();
+  const selectedGenre = genreFilter.value;
+
+  const filtered = allMoviesData.filter(item => {
+    const matchesSearch = item.name.toLowerCase().includes(searchQuery);
+    const genres = item.data.genre_ids || [];
+    const movieGenres = genres.map(id => genreMap[id]);
+    const matchesGenre = (selectedGenre === "all") || movieGenres.includes(selectedGenre);
+
+    return matchesSearch && matchesGenre;
+  });
+
+  displayMovies(filtered);
+}
+
+searchInput.addEventListener("input", filterAndSearchMovies);
+genreFilter.addEventListener("change", filterAndSearchMovies);
+
+render();
 </script>
 
 </body>
